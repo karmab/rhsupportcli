@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: rhsupportcli
+Version: 99.0
+Summary: RH support client
+Author-email: Karim Boumedhel <karimboumedhel@gmail.com>
+License: ASL
+Project-URL: Homepage, http://github.com/karmab/rhsupportcli
+Description-Content-Type: text/markdown
+Requires-Dist: prettytable
+
+Basic client and mcp server around https://access.redhat.com/management/api/case_management

@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rhsupportcli"
+version = "99.0"
+description = "RH support client"
+readme = "README.md"
+license = {text = "ASL"}
+authors = [{ name = "Karim Boumedhel", email = "karimboumedhel@gmail.com" }]
+urls = {Homepage = "http://github.com/karmab/rhsupportcli"}
+dependencies = [ "prettytable"]
+
+[project.scripts]
+rhsupportcli = "rhsupportlib.cli:cli"
+rhsupportmcp = "rhsupportlib.mcp:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
