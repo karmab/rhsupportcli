@@ -1,0 +1,26 @@
+name: CI
+
+on: [push, pull_request]
+
+env:
+ QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+ QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+
+jobs:
+  run-workflow:
+    name: CI workflow
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - name: Install Dependencies
+        run: sudo .github/prep.sh
+        shell: bash
+      - name: Lint Code
+        run: ./.github/linting.sh
+        shell: bash
+      - name: Build Container and Push
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: ./.github/build_and_push.sh
+        shell: bash
