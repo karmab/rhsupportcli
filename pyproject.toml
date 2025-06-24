@@ -10,11 +10,11 @@ readme = "README.md"
 license = {text = "ASL"}
 authors = [{ name = "Karim Boumedhel", email = "karimboumedhel@gmail.com" }]
 urls = {Homepage = "http://github.com/karmab/rhsupportcli"}
-dependencies = [ "prettytable"]
+dependencies = [ "fastmcp", "prettytable"]
 
 [project.scripts]
 rhsupportcli = "rhsupportlib.cli:cli"
-rhsupportmcp = "rhsupportlib.mcp:main"
+rhsupportmcp = "rhsupportlib.mcp_server:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

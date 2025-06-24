@@ -3,6 +3,7 @@ name: CI
 on: [push, pull_request]
 
 env:
+ PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
  QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
  QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
 
@@ -22,5 +23,5 @@ jobs:
         shell: bash
       - name: Build Container and Push
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: ./.github/build_and_push.sh
+        run: ./.github/build.sh
         shell: bash
