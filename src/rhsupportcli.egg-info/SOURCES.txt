@@ -10,4 +10,4 @@ src/rhsupportcli.egg-info/top_level.txt
 src/rhsupportlib/CaseManagement-API_v1.json
 src/rhsupportlib/__init__.py
 src/rhsupportlib/cli.py
-src/rhsupportlib/mcp.py
+src/rhsupportlib/mcp_server.py

@@ -71,6 +71,11 @@ def create_case(args):
     print(rhc.create_case(parameters))
 
 
+def create_attachment(args):
+    rhc = RHsupportClient()
+    print(rhc.create_attachment(args.case, args.path))
+
+
 def create_comment(args):
     rhc = RHsupportClient()
     print(rhc.create_comment(args.case, args.comment))
@@ -190,6 +195,14 @@ def cli():
                                                      help=casecreate_desc, formatter_class=rawhelp)
     casecreate_parser.add_argument('-P', '--param', action='append', help=PARAMHELP, metavar='PARAM')
     casecreate_parser.set_defaults(func=create_case)
+
+    attachmentcreate_desc = 'Create case comment'
+    attachmentcreate_parser = create_subparsers.add_parser('attachment', description=attachmentcreate_desc,
+                                                           help=attachmentcreate_desc, formatter_class=rawhelp,
+                                                           aliases=['attachments'])
+    attachmentcreate_parser.add_argument('case', metavar='CASE')
+    attachmentcreate_parser.add_argument('path', metavar='PATH')
+    attachmentcreate_parser.set_defaults(func=create_attachment)
 
     commentcreate_desc = 'Create case comment'
     commentcreate_parser = create_subparsers.add_parser('comment', description=commentcreate_desc,

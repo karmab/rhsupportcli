@@ -1,10 +1,12 @@
 from base64 import b64decode
 import json
+import mimetypes
 import os
 import sys
 from time import time
 from urllib.request import urlopen, Request
 from urllib.parse import urlencode
+import uuid
 
 BASE_URL = 'https://api.access.redhat.com/support'
 CASES_URL = f'{BASE_URL}/v1/cases'
@@ -121,15 +123,34 @@ class RHsupportClient(object):
         except Exception as e:
             error(e)
 
-    def create_attachement(self, case, attachment):
-        info(f"Creating new comment on case{case}")
-        data = {"commentBody": attachment}
-        data = json.dumps(data).encode('utf-8')
-        request = Request(f"{CASES_URL}/{case}/comments", headers=self.headers, method='POST', data=data)
+    def create_attachment(self, case, path):
+        path = os.path.expanduser(path)
+        info(f"Creating new attachment from {path} on case {case}")
+        filename = os.path.basename(path)
+        content_type = mimetypes.guess_type(path)[0] or 'application/octet-stream'
+        boundary = uuid.uuid4().hex
+        if not os.path.exists(path):
+            msg = f"file {path} not found"
+            error(msg)
+            return {'result': 'failure'}
+        with open(path, 'rb') as f:
+            file_data = f.read()
+        body = (
+            f'--{boundary}\r\n'
+            f'Content-Disposition: form-data; name="file"; filename="{filename}"\r\n'
+            f'Content-Type: {content_type}\r\n'
+            f'\r\n'
+        ).encode('utf-8') + file_data + f'\r\n--{boundary}--\r\n'.encode('utf-8')
+        url = f'{CASES_URL}/{case}/attachments'
+        headers = self.headers.copy()
+        headers['Content-Type'] = f'multipart/form-data; boundary={boundary}'
+        headers['Content-Length'] = str(len(body))
+        request = Request(url, data=body, method='POST', headers=headers)
         try:
             return json.loads(urlopen(request).read())
         except Exception as e:
             error(e)
+            return {'result': e}
 
     def update_case(self, case, parameters={}):
         info(f"Updating case {case}")

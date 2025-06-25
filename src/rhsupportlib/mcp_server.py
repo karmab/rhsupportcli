@@ -16,6 +16,14 @@ def create_case(parameters: dict) -> dict:
 
 
 @mcp.tool()
+def create_attachment(case: str, path: str):
+    """Create attachment"""
+    offlinetoken = get_http_headers().get('OFFLINETOKEN')
+    rhc = RHsupportClient(offlinetoken)
+    return rhc.create_attachment(case, path)
+
+
+@mcp.tool()
 def create_comment(case: str, comment: str):
     """Create comment"""
     offlinetoken = get_http_headers().get('OFFLINETOKEN')

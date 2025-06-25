@@ -6,6 +6,7 @@ Author-email: Karim Boumedhel <karimboumedhel@gmail.com>
 License: ASL
 Project-URL: Homepage, http://github.com/karmab/rhsupportcli
 Description-Content-Type: text/markdown
+Requires-Dist: fastmcp
 Requires-Dist: prettytable
 
 Basic client and mcp server around https://access.redhat.com/management/api/case_management
@@ -30,11 +31,8 @@ In VSCode for example:
    "mcp": {
         "servers": {
             "Rhsupportcli": {
-                "command": "mcp",
-                "args": [
-                    "run",
-                    "/path/to/rhsupportcli/src/rhsupportlib/mcp.py"
-                ],
+                "command": "python3",
+                "args": ["/path/to/rhsupportcli/src/rhsupportlib/mcp_server.py"],
                 "env": {
                     "OFFLINETOKEN": <your token>
                 }
