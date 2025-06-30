@@ -1,6 +1,6 @@
 import argparse
 from rhsupportlib import RHsupportClient
-from fastmcp import FastMCP
+from fastmcp import FastMCP, Context
 from fastmcp.server.dependencies import get_http_headers
 
 
@@ -8,98 +8,110 @@ mcp = FastMCP("rhsupportmcp")
 
 
 @mcp.tool()
-def create_case(parameters: dict) -> dict:
+def create_case(context: Context,
+                parameters: dict) -> dict:
     """Create case"""
-    offlinetoken = get_http_headers().get('OFFLINETOKEN')
-    rhc = RHsupportClient(offlinetoken)
+    offlinetoken = get_http_headers().get('offlinetoken')
+    rhc = RHsupportClient(offlinetoken, context=context)
     return rhc.create_case(parameters)
 
 
 @mcp.tool()
-def create_attachment(case: str, path: str):
+def create_attachment(context: Context,
+                      case: str, path: str):
     """Create attachment"""
-    offlinetoken = get_http_headers().get('OFFLINETOKEN')
-    rhc = RHsupportClient(offlinetoken)
+    offlinetoken = get_http_headers().get('offlinetoken')
+    rhc = RHsupportClient(offlinetoken, context=context)
     return rhc.create_attachment(case, path)
 
 
 @mcp.tool()
-def create_comment(case: str, comment: str):
+def create_comment(context: Context,
+                   case: str, comment: str):
     """Create comment"""
-    offlinetoken = get_http_headers().get('OFFLINETOKEN')
-    rhc = RHsupportClient(offlinetoken)
+    offlinetoken = get_http_headers().get('offlinetoken')
+    rhc = RHsupportClient(offlinetoken, context=context)
     return rhc.create_comment(case, comment)
 
 
 @mcp.tool()
-def get_attachments(case: str, path: str = '/tmp'):
+def get_attachments(context: Context,
+                    case: str, path: str = '/tmp'):
     """Get attachments"""
-    offlinetoken = get_http_headers().get('OFFLINETOKEN')
-    rhc = RHsupportClient(offlinetoken)
+    offlinetoken = get_http_headers().get('offlinetoken')
+    rhc = RHsupportClient(offlinetoken, context=context)
     return rhc.get_attachments(case, path)
 
 
 @mcp.tool()
-def get_case(case: str) -> dict:
+def get_case(context: Context,
+             case: str) -> dict:
     """Retrieve information on case"""
-    offlinetoken = get_http_headers().get('OFFLINETOKEN')
-    rhc = RHsupportClient(offlinetoken)
+    offlinetoken = get_http_headers().get('offlinetoken')
+    rhc = RHsupportClient(offlinetoken, context=context)
     return rhc.get_case(case)
 
 
 @mcp.tool()
-def list_cases(parameters: list = {}) -> list:
+def list_cases(context: Context,
+               parameters: list = {}) -> list:
     """List cases"""
-    offlinetoken = get_http_headers().get('OFFLINETOKEN')
-    rhc = RHsupportClient(offlinetoken)
+    offlinetoken = get_http_headers().get('offlinetoken')
+    rhc = RHsupportClient(offlinetoken, context=context)
     return rhc.list_cases(parameters)
 
 
 @mcp.tool()
-def list_customers(account: str = None) -> list:
+def list_customers(context: Context,
+                   account: str = None) -> list:
     """List customers"""
-    offlinetoken = get_http_headers().get('OFFLINETOKEN')
-    rhc = RHsupportClient(offlinetoken)
+    offlinetoken = get_http_headers().get('offlinetoken')
+    rhc = RHsupportClient(offlinetoken, context=context)
     return rhc.list_customers(account)
 
 
 @mcp.tool()
-def list_partners(account: str = None) -> list:
+def list_partners(context: Context,
+                  account: str = None) -> list:
     """List partners"""
-    offlinetoken = get_http_headers().get('OFFLINETOKEN')
-    rhc = RHsupportClient(offlinetoken)
+    offlinetoken = get_http_headers().get('offlinetoken')
+    rhc = RHsupportClient(offlinetoken, context=context)
     return rhc.list_partners(account)
 
 
 @mcp.tool()
-def list_contacts(account: str = None) -> list:
+def list_contacts(context: Context,
+                  account: str = None) -> list:
     """List contacts"""
-    offlinetoken = get_http_headers().get('OFFLINETOKEN')
-    rhc = RHsupportClient(offlinetoken)
+    offlinetoken = get_http_headers().get('offlinetoken')
+    rhc = RHsupportClient(offlinetoken, context=context)
     return rhc.list_accounts(account)
 
 
 @mcp.tool()
-def search_cases(q: str) -> list:
+def search_cases(context: Context,
+                 q: str) -> list:
     """Search cases"""
-    offlinetoken = get_http_headers().get('OFFLINETOKEN')
-    rhc = RHsupportClient(offlinetoken)
+    offlinetoken = get_http_headers().get('offlinetoken')
+    rhc = RHsupportClient(offlinetoken, context=context)
     return rhc.search_cases({'q': q})
 
 
 @mcp.tool()
-def search_kcs(q: str) -> list:
+def search_kcs(context: Context,
+               q: str) -> list:
     """Search kcs"""
-    offlinetoken = get_http_headers().get('OFFLINETOKEN')
-    rhc = RHsupportClient(offlinetoken)
+    offlinetoken = get_http_headers().get('offlinetoken')
+    rhc = RHsupportClient(offlinetoken, context=context)
     return rhc.search_kcs({'q': q})
 
 
 @mcp.tool()
-def update_case(case: str, parameters: dict) -> dict:
+def update_case(context: Context,
+                case: str, parameters: dict) -> dict:
     """Update case"""
-    offlinetoken = get_http_headers().get('OFFLINETOKEN')
-    rhc = RHsupportClient(offlinetoken)
+    offlinetoken = get_http_headers().get('offlinetoken')
+    rhc = RHsupportClient(offlinetoken, context=context)
     return rhc.update_case(case, parameters)
 
 

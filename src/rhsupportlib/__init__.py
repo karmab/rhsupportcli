@@ -15,26 +15,36 @@ VALID_STATUSES = ['Waiting on Red Hat', 'Waiting on Customer', 'Closed']
 VALID_SEVERITIES = ['1 (Urgent)', '2 (Hight)', '3 (Normal)', '4 (Low)']
 
 
-def error(text):
-    color = "31"
-    print(f'\033[0;{color}m{text}\033[0;0m')
+def error(text, context=None):
+    if context is not None:
+        context.error(text)
+    else:
+        color = "31"
+        print(f'\033[0;{color}m{text}\033[0;0m')
 
 
-def warning(text, quiet=False):
-    if quiet:
-        return
-    color = "33"
-    print(f'\033[0;{color}m{text}\033[0;0m')
+def warning(text, context=None):
+    if context is not None:
+        context.warning(text)
+    else:
+        color = "33"
+        print(f'\033[0;{color}m{text}\033[0;0m')
 
 
-def info(text):
-    color = "36"
-    print(f'\033[0;{color}m{text}\033[0;0m')
+def info(text, context=None):
+    if context is not None:
+        context.info(text)
+    else:
+        color = "36"
+        print(f'\033[0;{color}m{text}\033[0;0m')
 
 
-def success(text):
-    color = "32"
-    print(f'\033[0;{color}m{text}\033[0;0m')
+def success(text, context=None):
+    if context is not None:
+        context.info(text)
+    else:
+        color = "32"
+        print(f'\033[0;{color}m{text}\033[0;0m')
 
 
 def get_token(token, offlinetoken=None):
@@ -56,7 +66,7 @@ def get_token(token, offlinetoken=None):
 
 
 class RHsupportClient(object):
-    def __init__(self, offlinetoken=None):
+    def __init__(self, offlinetoken=None, context=None):
         offlinetoken = offlinetoken or os.environ.get('OFFLINETOKEN')
         if offlinetoken is None:
             error('OFFLINETOKEN is not set')
@@ -64,6 +74,7 @@ class RHsupportClient(object):
         token = get_token(token=None, offlinetoken=offlinetoken)
         headers = {'Authorization': f'Bearer {token}', 'Accept': 'application/json', 'Content-Type': 'application/json'}
         self.headers = headers
+        self.context = context
 
     def get_case(self, case):
         info(f"Retrieving case {case}")
