@@ -98,6 +98,16 @@ def search_cases(context: Context,
 
 
 @mcp.tool()
+def search_history(context: Context,
+                   q: str, num_sources: int = 1, only_high_similarity_nodes: bool = False) -> str:
+    """Search history"""
+    history_url = get_http_headers().get('history_url')
+    offlinetoken = get_http_headers().get('offlinetoken')
+    rhc = RHsupportClient(offlinetoken, history_url=history_url, context=context)
+    return rhc.search_history({'q': q, 'num_sources': 1, 'only_high_similarity_nodes': only_high_similarity_nodes})
+
+
+@mcp.tool()
 def search_kcs(context: Context,
                q: str) -> list:
     """Search kcs"""

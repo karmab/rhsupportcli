@@ -66,7 +66,7 @@ def get_token(token, offlinetoken=None):
 
 
 class RHsupportClient(object):
-    def __init__(self, offlinetoken=None, context=None):
+    def __init__(self, offlinetoken=None, history_url=None, context=None):
         offlinetoken = offlinetoken or os.environ.get('OFFLINETOKEN')
         if offlinetoken is None:
             error('OFFLINETOKEN is not set')
@@ -75,6 +75,7 @@ class RHsupportClient(object):
         headers = {'Authorization': f'Bearer {token}', 'Accept': 'application/json', 'Content-Type': 'application/json'}
         self.headers = headers
         self.context = context
+        self.history_url = history_url or os.environ.get('HISTORY_URL')
 
     def get_case(self, case):
         info(f"Retrieving case {case}")
@@ -238,3 +239,20 @@ class RHsupportClient(object):
             return json.loads(urlopen(request).read())
         except Exception as e:
             error(e)
+
+    def search_history(self, parameters):
+        if self.history_url is None:
+            return 'Missing history_url'
+        info("Querying cases history")
+        if 'q' in parameters:
+            parameters['user_query'] = parameters['q']
+        if 'user_query' not in parameters:
+            error('Missing user_query in parameters')
+            return ''
+        data = json.dumps(parameters).encode('utf-8')
+        request = Request(f"{self.history_url}/answer", headers=self.headers, method='POST', data=data)
+        try:
+            return json.loads(urlopen(request).read())['response']
+        except Exception as e:
+            error(e)
+            return ''

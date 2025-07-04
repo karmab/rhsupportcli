@@ -166,6 +166,13 @@ def get_business_hours(args):
     print(businesshourstable)
 
 
+def search_history(args):
+    parameters = parse_parameters(args.param)
+    rhc = RHsupportClient()
+    data = rhc.search_history(parameters)
+    print(data)
+
+
 def search_cases(args):
     parameters = parse_parameters(args.param)
     rhc = RHsupportClient()
@@ -300,6 +307,12 @@ def cli():
                                                        aliases=['cases'])
     cases_search_parser.add_argument('-P', '--param', action='append', help=PARAMHELP, metavar='PARAM')
     cases_search_parser.set_defaults(func=search_cases)
+
+    history_search_desc = 'Search history'
+    history_search_parser = search_subparsers.add_parser('history', description=history_search_desc,
+                                                         help=history_search_desc, formatter_class=rawhelp)
+    history_search_parser.add_argument('-P', '--param', action='append', help=PARAMHELP, metavar='PARAM')
+    history_search_parser.set_defaults(func=search_history)
 
     kcs_search_desc = 'Search kcs'
     kcs_search_parser = search_subparsers.add_parser('kcs', description=kcs_search_desc,
