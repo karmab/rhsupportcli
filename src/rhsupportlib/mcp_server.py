@@ -128,12 +128,12 @@ def update_case(context: Context,
 def main():
     parser = argparse.ArgumentParser(description="rhsupportmcp")
     parser.add_argument("--port", type=int, default=8000, help="Localhost port to listen on")
-    parser.add_argument("--http", action='store_true')
+    parser.add_argument("-s", "--stdio", action='store_true')
     args = parser.parse_args()
-    if args.http:
-        mcp.run(transport="http", port=args.port)
-    else:
+    if args.stdio:
         mcp.run(transport="stdio")
+    else:
+        mcp.run(transport="http", host="0.0.0.0", port=args.port)
 
 
 if __name__ == "__main__":

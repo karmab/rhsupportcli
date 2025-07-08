@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rhsupportmcp
+  labels:
+    app: rhsupportcmcp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rhsupportmcp
+  template:
+    metadata:
+      labels:
+        app: rhsupportmcp
+    spec:
+      containers:
+      - name: rhsupportmcp
+        command:
+        - /usr/bin/rhsupportcmp
+        image: quay.io/karmab/rhsupportcli:latest
+        ports:
+        - containerPort: 8000
+          protocol: TCP
+#        env:
+#        - name: OFFLINETOKEN
+#          value: "xxx"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rhsupportmcp
+spec:
+  ports:
+  - name: http
+    port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: rhsupportmcp
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: rhsupportmcp
+spec:
+  port:
+    targetPort: 8000
+  to:
+    kind: Service
+    name: rhsupportmcp
