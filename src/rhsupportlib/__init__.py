@@ -85,7 +85,10 @@ class RHsupportClient(object):
     def get_comments(self, case):
         info(f"Retrieving comments for case {case}")
         request = Request(f"{CASES_URL}/{case}/comments", headers=self.headers)
-        return json.loads(urlopen(request).read())
+        try:
+            return json.loads(urlopen(request).read())
+        except:
+            return []
 
     def get_attachments(self, case, path='.'):
         info(f"Retrieving attachments for case {case}")

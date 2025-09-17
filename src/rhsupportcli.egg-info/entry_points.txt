@@ -1,3 +1,0 @@
-[console_scripts]
-rhsupportcli = rhsupportlib.cli:cli
-rhsupportmcp = rhsupportlib.mcp_server:main

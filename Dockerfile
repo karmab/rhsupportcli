@@ -16,7 +16,7 @@ RUN mkdir /root/rhsupportcli
 ADD README.md /root/rhsupportcli
 ADD src /root/rhsupportcli/src
 COPY pyproject.toml /root/rhsupportcli
-RUN pip3 install -U pip setuptools wheel build && pip3 install -e /root/rhsupportcli
+RUN pip3 install -U pip wheel build && pip3 install -e /root/rhsupportcli
 RUN touch /i_am_a_container
 
 ENTRYPOINT ["/usr/bin/rhsupportcli"]
