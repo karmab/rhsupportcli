@@ -242,20 +242,3 @@ class RHsupportClient(object):
             return json.loads(urlopen(request).read())
         except Exception as e:
             error(e)
-
-    def search_history(self, parameters):
-        if self.history_url is None:
-            return 'Missing history_url'
-        info("Querying cases history")
-        if 'q' in parameters:
-            parameters['user_query'] = parameters['q']
-        if 'user_query' not in parameters:
-            error('Missing user_query in parameters')
-            return ''
-        data = json.dumps(parameters).encode('utf-8')
-        request = Request(f"{self.history_url}/answer", headers=self.headers, method='POST', data=data)
-        try:
-            return json.loads(urlopen(request).read())['response']
-        except Exception as e:
-            error(e)
-            return ''
